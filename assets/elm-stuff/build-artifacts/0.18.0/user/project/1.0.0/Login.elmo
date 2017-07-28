@@ -1,0 +1,159 @@
+var _user$project$Login$loginEncoded = function (data) {
+	var list = {
+		ctor: '::',
+		_0: {
+			ctor: '_Tuple2',
+			_0: 'username',
+			_1: _elm_lang$core$Json_Encode$string(data.username)
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'password',
+				_1: _elm_lang$core$Json_Encode$string(data.password)
+			},
+			_1: {ctor: '[]'}
+		}
+	};
+	return _elm_lang$core$Json_Encode$object(list);
+};
+var _user$project$Login$decodeLoginUrl = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'data',
+		_1: {
+			ctor: '::',
+			_0: 'image_url',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _user$project$Login$model = {username: '', password: '', storageResult: ''};
+var _user$project$Login$storageResult = _elm_lang$core$Native_Platform.incomingPort('storageResult', _elm_lang$core$Json_Decode$string);
+var _user$project$Login$Model = F3(
+	function (a, b, c) {
+		return {username: a, password: b, storageResult: c};
+	});
+var _user$project$Login$init = {
+	ctor: '_Tuple2',
+	_0: A3(_user$project$Login$Model, '', '', ''),
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Login$StorageResult = function (a) {
+	return {ctor: 'StorageResult', _0: a};
+};
+var _user$project$Login$subscriptions = function (model) {
+	return _user$project$Login$storageResult(_user$project$Login$StorageResult);
+};
+var _user$project$Login$LoginResult = function (a) {
+	return {ctor: 'LoginResult', _0: a};
+};
+var _user$project$Login$postLogin = function (model) {
+	var body = _elm_lang$http$Http$jsonBody(
+		_user$project$Login$loginEncoded(model));
+	var url = '/api/login';
+	var request = A3(_elm_lang$http$Http$post, url, body, _user$project$Login$decodeLoginUrl);
+	return A2(_elm_lang$http$Http$send, _user$project$Login$LoginResult, request);
+};
+var _user$project$Login$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'ChangeUsername':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{username: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ChangePassword':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{password: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Login':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Login$postLogin(model)
+				};
+			case 'LoginResult':
+				if (_p0._0.ctor === 'Ok') {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$Login$ChangePassword = function (a) {
+	return {ctor: 'ChangePassword', _0: a};
+};
+var _user$project$Login$ChangeUsername = function (a) {
+	return {ctor: 'ChangeUsername', _0: a};
+};
+var _user$project$Login$Login = {ctor: 'Login'};
+var _user$project$Login$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$placeholder('Username'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Login$ChangeUsername),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Password'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('password'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Login$ChangePassword),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Login$Login),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Login'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Login$main = _elm_lang$html$Html$program(
+	{init: _user$project$Login$init, view: _user$project$Login$view, update: _user$project$Login$update, subscriptions: _user$project$Login$subscriptions})();

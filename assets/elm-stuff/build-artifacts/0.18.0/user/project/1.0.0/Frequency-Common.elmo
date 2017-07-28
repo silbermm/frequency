@@ -1,0 +1,26 @@
+var _user$project$Frequency_Common$decodeValidJwtDelete = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'result',
+		_1: {ctor: '[]'}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _user$project$Frequency_Common$User = F5(
+	function (a, b, c, d, e) {
+		return {username: a, email: b, id: c, first_name: d, last_name: e};
+	});
+var _user$project$Frequency_Common$decodeValidJwtResult = A6(
+	_elm_lang$core$Json_Decode$map5,
+	_user$project$Frequency_Common$User,
+	A2(_elm_lang$core$Json_Decode$field, 'username', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'email', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'first_name', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'last_name', _elm_lang$core$Json_Decode$string));
+var _user$project$Frequency_Common$getJwtValid = F2(
+	function (jwt, thing) {
+		var url = '/api/token';
+		var request = A3(_simonh1000$elm_jwt$Jwt$get, jwt, url, _user$project$Frequency_Common$decodeValidJwtResult);
+		return A2(_simonh1000$elm_jwt$Jwt$send, thing, request);
+	});
