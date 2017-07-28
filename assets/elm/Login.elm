@@ -80,7 +80,7 @@ view model =
                   ]
               , div [ class "row onl_row-sm-offset-3 onl_socialButtons" ]
                   [
-                    div [ class "col-xs-2 col-sm-2" ]
+                    div [ class "col-sm-6" ]
                       [
                         a [
                             href "/auth/google"
@@ -88,7 +88,7 @@ view model =
                           , title "Google" 
                           ]
                           [
-                            i [ class "fa fa-google fa-2x" ] []
+                            i [ class "fa fa-google-plus fa-2x" ] []
                           , span [ class "hidden-xs" ] []
                           ]
                       ]
