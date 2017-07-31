@@ -1,5 +1,5 @@
-defmodule Frequency.Web.PageControllerTest do
-  use Frequency.Web.ConnCase
+defmodule FrequencyWeb.PageControllerTest do
+  use FrequencyWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

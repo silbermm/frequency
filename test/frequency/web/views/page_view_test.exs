@@ -1,3 +1,3 @@
-defmodule Frequency.Web.PageViewTest do
-  use Frequency.Web.ConnCase, async: true
+defmodule FrequencyWeb.PageViewTest do
+  use FrequencyWeb.ConnCase, async: true
 end

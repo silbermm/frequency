@@ -10,10 +10,10 @@ config :frequency,
   ecto_repos: [Frequency.Repo]
 
 # Configures the endpoint
-config :frequency, Frequency.Web.Endpoint,
+config :frequency, FrequencyWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "pIR0e5/N/jAgtiexjLlbarXzIopdb1G2WTEdlP/LuIOmdLKn0pZvOMMzUB5JKu7I",
-  render_errors: [view: Frequency.Web.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: FrequencyWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Frequency.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

@@ -1,4 +1,4 @@
-defmodule Frequency.Web.ChannelCase do
+defmodule FrequencyWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,7 +21,7 @@ defmodule Frequency.Web.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint Frequency.Web.Endpoint
+      @endpoint FrequencyWeb.Endpoint
     end
   end
 

@@ -1,3 +1,3 @@
-defmodule Frequency.Web.LayoutViewTest do
-  use Frequency.Web.ConnCase, async: true
+defmodule FrequencyWeb.LayoutViewTest do
+  use FrequencyWeb.ConnCase, async: true
 end

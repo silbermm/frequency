@@ -17,6 +17,8 @@ main =
      , subscriptions = subscriptions
      }
 
+type alias FormErrors = { username : String, password : String }
+
 -- MODEL
 type alias Model =
   { username : String
@@ -24,6 +26,7 @@ type alias Model =
   , user: Maybe User
   , storageResult: String
   , validJwtError: String
+  , formErrors : FormErrors
   }
 
 model : Model
@@ -33,6 +36,7 @@ model =
   , user = Nothing
   , storageResult = ""
   , validJwtError = ""
+  , formErrors = { username = "", password = "" }
   }
 
 -- UPDATE
@@ -51,7 +55,10 @@ update msg model =
     ChangePassword newpassword ->
        ({ model | password = newpassword }, Cmd.none)
     Login ->
-      ( model, postLogin model )
+      let
+       hasErrors = if model.username == "" || model.password == "" then True else False
+      in
+        ( { model | formErrors = getErrors model }, if hasErrors then Cmd.none else postLogin model )
     LoginResult (Ok jwt) ->
       ({ model | storageResult = jwt, password = "", username = ""}, Frequency.Ports.addToStorage { jwt = jwt })
     LoginResult (Err _) ->
@@ -75,20 +82,15 @@ view model =
             div [ class "onl_login" ]
               [
                 h3 [ class "onl_authTitle" ]
-                  [
-                    text "Login Or " , a [ href "/register" ] [ text "Register" ] 
-                  ]
+                  [ text "Login Or " , a [ href "/register" ] [ text "Register" ] ]
               , div [ class "row onl_row-sm-offset-3 onl_socialButtons" ]
                   [
                     div [ class "col-sm-6" ]
-                      [
-                        a [
-                            href "/auth/google"
+                      [ a [ href "/auth/google"
                           , class "btn btn-lg btn-block onl_btn-google-plus"
-                          , title "Google" 
+                          , title "Google"
                           ]
-                          [
-                            i [ class "fa fa-google-plus fa-2x" ] []
+                          [ i [ class "fa fa-google-plus fa-2x" ] []
                           , span [ class "hidden-xs" ] []
                           ]
                       ]
@@ -96,34 +98,27 @@ view model =
               , div [ class "row onl_row-sm-offset-3 onl_loginOr" ]
                   [
                     div [ class "col-xs-12 col-sm-6" ]
-                      [
-                        hr [ class "onl_hrOr" ] []
+                      [ hr [ class "onl_hrOr" ] []
                       , span [ class "onl_spanOr" ] [ text "or" ]
                       ]
                   ]
-              , div [ class "row onl_row-sm-offset-3" ] 
+              , div [ class "row onl_row-sm-offset-3" ]
                   [
                     div [ class "col-xs-12 col-sm-6" ]
                       [
                         Html.form [ class "onl_loginForm" ]
-                          [
-                            div [ class "input-group" ] 
-                              [
-                                span [ class "input-group-addon" ] [ span [ class "glyphicon glyphicon-user" ] [] ]
+                          [ div [ class "input-group" ]
+                              [ span [ class "input-group-addon" ] [ span [ class "glyphicon glyphicon-user" ] [] ]
                               , input [ placeholder "Username", class "form-control", onInput ChangeUsername, Html.Attributes.value model.username ] []
                               ]
-                          , span [ class "help-block" ] [ text "Error message here" ]
-                          , div [ class "input-group" ] 
-                              [
-                                span [ class "input-group-addon" ] [ span [ class "glyphicon glyphicon-lock" ] [] ]
+                          , span [ class "help-block" ] [ text model.formErrors.username ]
+                          , div [ class "input-group" ]
+                              [ span [ class "input-group-addon" ] [ span [ class "glyphicon glyphicon-lock" ] [] ]
                               , input [ placeholder "Password", class "form-control", type_ "password", onInput ChangePassword ] []
                               ]
-                          , span [ class "help-block" ] [ text "Password Errorm message here" ]
-                          , button [ class "btn btn-lg btn-primary btn-block", type_ "submit",  onClick Login ] 
-                            [
-                              i [ class "fa fa-sign-in" ] []
-                            , text " Login"
-                            ]
+                          , span [ class "help-block" ] [ text model.formErrors.password ]
+                          , button [ class "btn btn-lg btn-primary btn-block", type_ "submit",  onClick Login ]
+                            [ i [ class "fa fa-sign-in" ] [], text " Login" ]
                           ]
                       ]
                   ]
@@ -144,7 +139,12 @@ subscriptions model =
 -- INIT
 init : (Model, Cmd Msg)
 init =
-    (Model "" "" Nothing "" "", Frequency.Ports.queryStorage("jwt"))
+    (Model "" "" Nothing "" "" { username = "", password = "" }, Frequency.Ports.queryStorage("jwt"))
+
+getErrors model= 
+  { username = if model.username == "" then "Please enter a username!" else ""
+  , password = if model.password == "" then "Please enter a password!" else ""
+  }
 
 postLogin : Model -> Cmd Msg
 postLogin model =

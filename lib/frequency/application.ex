@@ -11,7 +11,7 @@ defmodule Frequency.Application do
       # Start the Ecto repository
       supervisor(Frequency.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Frequency.Web.Endpoint, []),
+      supervisor(FrequencyWeb.Endpoint, []),
       # Start your own worker by calling: Frequency.Worker.start_link(arg1, arg2, arg3)
       # worker(Frequency.Worker, [arg1, arg2, arg3]),
     ]
