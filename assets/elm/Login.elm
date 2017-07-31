@@ -1,6 +1,6 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (onClick, onInput, onSubmit)
 import Http exposing (..)
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode
@@ -51,14 +51,11 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     ChangeUsername newusername ->
-       ({ model | username = newusername }, Cmd.none)
+       ({ model | username = newusername, formErrors = getErrors model }, Cmd.none)
     ChangePassword newpassword ->
-       ({ model | password = newpassword }, Cmd.none)
+       ({ model | password = newpassword, formErrors = getErrors model }, Cmd.none)
     Login ->
-      let
-       hasErrors = if model.username == "" || model.password == "" then True else False
-      in
-        ( { model | formErrors = getErrors model }, if hasErrors then Cmd.none else postLogin model )
+      ( { model | formErrors = getErrors model }, postLogin model )
     LoginResult (Ok jwt) ->
       ({ model | storageResult = jwt, password = "", username = ""}, Frequency.Ports.addToStorage { jwt = jwt })
     LoginResult (Err _) ->
@@ -106,7 +103,7 @@ view model =
                   [
                     div [ class "col-xs-12 col-sm-6" ]
                       [
-                        Html.form [ class "onl_loginForm" ]
+                        div [ class "onl_loginForm" ]
                           [ div [ class "input-group" ]
                               [ span [ class "input-group-addon" ] [ span [ class "glyphicon glyphicon-user" ] [] ]
                               , input [ placeholder "Username", class "form-control", onInput ChangeUsername, Html.Attributes.value model.username ] []
@@ -117,7 +114,7 @@ view model =
                               , input [ placeholder "Password", class "form-control", type_ "password", onInput ChangePassword ] []
                               ]
                           , span [ class "help-block" ] [ text model.formErrors.password ]
-                          , button [ class "btn btn-lg btn-primary btn-block", type_ "submit",  onClick Login ]
+                          , button [ class "btn btn-lg btn-primary btn-block", onClick Login ]
                             [ i [ class "fa fa-sign-in" ] [], text " Login" ]
                           ]
                       ]

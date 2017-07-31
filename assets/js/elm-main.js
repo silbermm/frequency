@@ -11,6 +11,7 @@ export var App = {
 
     app.ports.addToStorage.subscribe(({jwt: jwt}) => {
       storage.setItem("jwt", jwt);
+      app.ports.storageResult.send(jwt);
     });
 
     app.ports.removeFromStorage.subscribe( key => {

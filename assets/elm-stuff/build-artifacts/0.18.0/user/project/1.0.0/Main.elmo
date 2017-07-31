@@ -88,7 +88,10 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{username: _p0._0}),
+						{
+							username: _p0._0,
+							formErrors: _user$project$Main$getErrors(model)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ChangePassword':
@@ -96,11 +99,13 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{password: _p0._0}),
+						{
+							password: _p0._0,
+							formErrors: _user$project$Main$getErrors(model)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Login':
-				var hasErrors = (_elm_lang$core$Native_Utils.eq(model.username, '') || _elm_lang$core$Native_Utils.eq(model.password, '')) ? true : false;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -108,7 +113,7 @@ var _user$project$Main$update = F2(
 						{
 							formErrors: _user$project$Main$getErrors(model)
 						}),
-					_1: hasErrors ? _elm_lang$core$Platform_Cmd$none : _user$project$Main$postLogin(model)
+					_1: _user$project$Main$postLogin(model)
 				};
 			case 'LoginResult':
 				if (_p0._0.ctor === 'Ok') {
@@ -342,7 +347,7 @@ var _user$project$Main$view = function (model) {
 												{
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$form,
+														_elm_lang$html$Html$div,
 														{
 															ctor: '::',
 															_0: _elm_lang$html$Html_Attributes$class('onl_loginForm'),
@@ -495,12 +500,8 @@ var _user$project$Main$view = function (model) {
 																					_0: _elm_lang$html$Html_Attributes$class('btn btn-lg btn-primary btn-block'),
 																					_1: {
 																						ctor: '::',
-																						_0: _elm_lang$html$Html_Attributes$type_('submit'),
-																						_1: {
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Login),
-																							_1: {ctor: '[]'}
-																						}
+																						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Login),
+																						_1: {ctor: '[]'}
 																					}
 																				},
 																				{
