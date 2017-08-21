@@ -29,8 +29,8 @@ defmodule FrequencyWeb.AuthController do
       {:ok, user} ->
         {:ok, jwt, claims} = Guardian.encode_and_sign(user, :access)
         conn
-        |> put_resp_header("authorization", "Bearer #{jwt}")
-        |> redirect(to: "/")
+        |> put_resp_header("Authorization", "Bearer #{jwt}")
+        |> render("login.html", jwt: jwt)
       {:error, changeset} ->
         conn
         |> put_flash(:error, "invalid form")

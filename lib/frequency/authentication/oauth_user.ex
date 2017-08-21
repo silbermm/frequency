@@ -7,6 +7,8 @@ defmodule Frequency.Authentication.OauthUser do
   alias Frequency.Authentication.User
   alias Ueberauth.Auth
 
+  require IEx
+
   def find_or_create(%Auth{provider: :identity} = auth) do
     # create the user in the database
     case Authentication.create_user_from_auth(auth, :identity) do
@@ -16,9 +18,13 @@ defmodule Frequency.Authentication.OauthUser do
   end
 
   def find_or_create(%Auth{} = auth) do
-    case Authentication.create_user_from_auth(auth, auth.provider) do
-      {:ok, model} -> {:ok, model}
-      {:error, changeset} -> {:error, changeset}
+    IEx.pry
+    case Authentication.get_user_by_username(auth.info.email) do
+      %Frequency.Authentication.User{} = user -> {:ok, user}
+      _ -> case Authentication.create_user_from_auth(auth, auth.provider) do
+            {:ok, model} -> {:ok, model}
+            {:error, changeset} -> {:error, changeset}
+           end
     end
   end
 

@@ -14,12 +14,22 @@ defmodule Frequency.Authentication do
   end
 
   def get_user_by_username(username) do
+    Repo.get_by(User, username: username)
+  end
 
+  def login(changeset) do
+    password_hash = hashpwsalt(changeset.changes.password)
+    user = get_user_by_username(changeset.changes.username)
+    if validate_pw(user, changeset.changes.password) do
+      {:ok, user}
+    else
+      {:error, changeset}
+    end
   end
 
   def login(username, password) do
     password_hash = hashpwsalt(password)
-    user = Repo.get_by(User, username: username)
+    user = get_user_by_username(username)
     if validate_pw(user, password) do
       user
     else
@@ -31,6 +41,7 @@ defmodule Frequency.Authentication do
     dummy_checkpw()
   end
   defp validate_pw(user, password) do
+    IO.inspect user
     checkpw(password, user.password_hash)
   end
 
@@ -38,6 +49,12 @@ defmodule Frequency.Authentication do
     %User{}
     |> cast(%{}, [:username, :email, :password, :password_confirmation])
     |> validate_required([:username, :email, :password, :password_confirmation])
+  end
+
+  def login_changeset(params) do
+    %User{}
+    |> cast(params, [:username, :password])
+    |> validate_required([:username, :password])
   end
 
   def create_user_from_auth(auth, :identity) do
@@ -72,6 +89,8 @@ defmodule Frequency.Authentication do
   end
 
   defp changeset_from_oauth(user, params \\ %{}) do
+    IO.inspect user
+    IO.inspect params
     user
     |> cast(params, ~w(username first_name last_name email))
     |> validate_required([:username, :email])
@@ -95,5 +114,4 @@ defmodule Frequency.Authentication do
   defp password_mismatch_error(changeset) do
     add_error(changeset, :password_confirmation, "Passwords does not match")
   end
-
 end

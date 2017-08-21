@@ -39,11 +39,11 @@
       <script src="<%= static_path(@conn, @elm_module) %>"></script>
     <% end %>
 
+    <%= if assigns[:elm_module] do %>
     <script src="<%= static_path(@conn, "/js/elm-main.js") %>"></script>
-
-    <!-- TODO: conditionally run this only if we are on a page that requires elm -->
     <script>
       require("js/elm-main").App.loadElm()
     </script>
+    <% end %>
   </body>
 </html>

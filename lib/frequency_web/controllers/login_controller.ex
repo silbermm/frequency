@@ -8,23 +8,20 @@ defmodule FrequencyWeb.LoginController do
     Show the login form
   """
   def index(conn, _params) do
-    render conn, "index.html", %{ "elm_module": "/js/login.js" }
+    changeset = Authentication.login_changeset(%{})
+    render conn, "index.html", user: changeset
   end
 
-  def login(conn, %{ "username" => username, "password" => password } = params) do
-    case Authentication.login(username, password) do
-      nil ->
+  def login(conn, %{"user" => user_params}) do
+    changeset = Authentication.login_changeset(user_params)
+    case Authentication.login(changeset) do
+      {:ok, user} ->
         conn
-        |> put_status(:unauthorized)
-        |> render("error.json", %{})
-      user ->
-        {:ok, jwt, claims} = Guardian.encode_and_sign(user, :access)
-        #exp = Map.get(claims, "exp")
-        conn
-        |> put_resp_header("authorization", "Bearer #{jwt}")
-        #|> put_resp_header("x-expires", exp)
-        |> put_status(:ok)
-        |> render("login.json", %{jwt: jwt})
+        |> Guardian.Plug.sign_in(user)
+        |> put_flash(:info, "Welcome")
+        |> redirect to: page_path(conn, :index)
+      {:error, changeset} -> 
+        render conn, "index.html", user: changeset
     end
   end
 end

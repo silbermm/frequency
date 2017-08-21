@@ -9,6 +9,11 @@ defmodule FrequencyWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :browser_session do
+      plug Guardian.Plug.VerifySession
+      plug Guardian.Plug.LoadResource
+  end
+
   pipeline :api_auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
@@ -20,6 +25,7 @@ defmodule FrequencyWeb.Router do
 
   scope "/auth", FrequencyWeb do
     pipe_through [:browser]
+    get "/register", AuthController, :register
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
     post "/:provider/callback", AuthController, :callback
@@ -27,8 +33,9 @@ defmodule FrequencyWeb.Router do
   end
 
   scope "/", FrequencyWeb do
-    pipe_through [:browser] # Use the default browser stack
+    pipe_through [:browser, :browser_session] # Use the default browser stack
     get "/login", LoginController, :index
+    post "/login", LoginController, :login
     get "/", PageController, :index
   end
 
@@ -37,11 +44,6 @@ defmodule FrequencyWeb.Router do
 
     get    "/token", TokenController, :verify
     delete "/token", TokenController, :delete
-    post   "/token", LoginController, :login
+    #post   "/token", LoginController, :login
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", FrequencyWeb do
-  #   pipe_through :api
-  # end
 end

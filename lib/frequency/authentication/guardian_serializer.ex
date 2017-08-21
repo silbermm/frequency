@@ -1,6 +1,6 @@
 defmodule Frequency.Authentication.GuardianSerializer do
   @behaviour Guardian.Serializer
-  
+
   alias Frequency.Authentication
   alias Frequency.Authentication.User
 
@@ -9,5 +9,4 @@ defmodule Frequency.Authentication.GuardianSerializer do
 
   def from_token("User:" <> id), do: { :ok, Authentication.get_user(id) }
   def from_token(_), do: { :error, "Unknown resource type" }
-
 end
