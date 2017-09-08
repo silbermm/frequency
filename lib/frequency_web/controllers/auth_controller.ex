@@ -1,6 +1,5 @@
 defmodule FrequencyWeb.AuthController do
   use FrequencyWeb, :controller
-
   plug Ueberauth
 
   alias Frequency.Authentication
@@ -25,12 +24,12 @@ defmodule FrequencyWeb.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, params) do
-    case Frequency.Authentication.OauthUser.find_or_create(auth) do
+    case Frequency.Authentication.create_user_from_auth(auth) do
       {:ok, user} ->
-        {:ok, jwt, claims} = Guardian.encode_and_sign(user, :access)
         conn
-        |> put_resp_header("Authorization", "Bearer #{jwt}")
-        |> render("login.html", jwt: jwt)
+        |> Guardian.Plug.sign_in(user)
+        |> put_flash(:info, "Welcome")
+        |> redirect to: page_path(conn, :index)
       {:error, changeset} ->
         conn
         |> put_flash(:error, "invalid form")

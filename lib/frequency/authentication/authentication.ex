@@ -1,63 +1,72 @@
 defmodule Frequency.Authentication do
   @moduledoc """
-    The boundary for the Authentication system.
+  The boundary for the Authentication system.
   """
 
   import Ecto.{Query, Changeset}, warn: false
   import Comeonin.Bcrypt, only: [hashpwsalt: 1, checkpw: 2, dummy_checkpw: 0]
+  alias Ueberauth.Auth
 
   alias Frequency.Repo
   alias Frequency.Authentication.User
 
+  @doc """
+  Get a user by id
+  """
   def get_user(id) do
     Repo.get(User, id)
   end
 
+  @doc """
+  Get a user by username
+  """
   def get_user_by_username(username) do
-    Repo.get_by(User, username: username)
+    User
+    |> by_username(username)
+    |> Repo.all
+    |> List.first
   end
 
+  @doc """
+  Login a user
+  """
   def login(changeset) do
-    password_hash = hashpwsalt(changeset.changes.password)
-    user = get_user_by_username(changeset.changes.username)
-    if validate_pw(user, changeset.changes.password) do
-      {:ok, user}
+    if changeset.valid? do
+      password_hash = hashpwsalt(changeset.changes.password)
+      user = get_user_by_username(changeset.changes.username)
+      if validate_pw(user, changeset.changes.password) do
+        {:ok, user}
+      else
+        {:error, %{changeset | action: :insert}}
+      end
     else
-      {:error, changeset}
+      {:error, %{changeset | action: :insert}}
     end
   end
 
-  def login(username, password) do
-    password_hash = hashpwsalt(password)
-    user = get_user_by_username(username)
-    if validate_pw(user, password) do
-      user
-    else
-      nil
-    end
-  end
+  @doc """
+  Changeset for a new user
 
-  defp validate_pw(nil, password) do
-    dummy_checkpw()
-  end
-  defp validate_pw(user, password) do
-    IO.inspect user
-    checkpw(password, user.password_hash)
-  end
-
+  Required fields include username, email, password and a password confirmation
+  """
   def user_changeset() do
     %User{}
     |> cast(%{}, [:username, :email, :password, :password_confirmation])
     |> validate_required([:username, :email, :password, :password_confirmation])
   end
 
+  @doc """
+  Changeset for the login form
+
+  Required fields include username and password
+  """
   def login_changeset(params) do
     %User{}
     |> cast(params, [:username, :password])
     |> validate_required([:username, :password])
   end
 
-  def create_user_from_auth(auth, :identity) do
+  def create_user_from_auth(%Auth{provider: :identity} = auth) do
     user = changeset_from_identity(%User{}, %{
       first_name: auth.info.first_name,
       last_name: auth.info.last_name,
@@ -68,7 +77,7 @@ defmodule Frequency.Authentication do
     })
     Repo.insert(user)
   end
-  def create_user_from_auth(auth, provider) do
+  def create_user_from_auth(auth) do
     user = changeset_from_oauth(%User{}, %{
       first_name: auth.info.first_name,
       last_name: auth.info.last_name,
@@ -89,8 +98,6 @@ defmodule Frequency.Authentication do
   end
 
   defp changeset_from_oauth(user, params \\ %{}) do
-    IO.inspect user
-    IO.inspect params
     user
     |> cast(params, ~w(username first_name last_name email))
     |> validate_required([:username, :email])
@@ -114,4 +121,18 @@ defmodule Frequency.Authentication do
   defp password_mismatch_error(changeset) do
     add_error(changeset, :password_confirmation, "Passwords does not match")
   end
+
+  defp by_username(query, username) do
+    from u in query,
+    where: u.username == ^username,
+    select: u
+  end
+
+  defp validate_pw(nil, password) do
+    dummy_checkpw()
+  end
+  defp validate_pw(user, password) do
+    checkpw(password, user.password_hash)
+  end
+
 end

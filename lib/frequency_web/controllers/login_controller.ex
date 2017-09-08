@@ -5,7 +5,7 @@ defmodule FrequencyWeb.LoginController do
 
 
   @doc """
-    Show the login form
+  Show the login form
   """
   def index(conn, _params) do
     changeset = Authentication.login_changeset(%{})
@@ -20,7 +20,7 @@ defmodule FrequencyWeb.LoginController do
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "Welcome")
         |> redirect to: page_path(conn, :index)
-      {:error, changeset} -> 
+      {:error, changeset} ->
         render conn, "index.html", user: changeset
     end
   end

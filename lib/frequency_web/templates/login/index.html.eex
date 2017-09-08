@@ -1,8 +1,8 @@
 <div class="container">
   <div class="onl_login">
-    <h3 class="onl_authTitle"> Login Or <a href="<%= auth_path(@conn, :register) %>"> Register </a> </h3>
+    <h3 class="onl_authTitle"> Login Or <a href="<%= auth_path(@conn, :request, "identity") %>"> Register </a> </h3>
     <div class="row onl_row-sm-offset-3 onl_socialButtons">
-      <div class="col-sm-6"> 
+      <div class="col-sm-6">
         <a href="<%= auth_path(@conn, :callback, "google") %>" class="btn btn-lg btn-block onl_btn-google-plus" title="Google">
           <i class="fa fa-google-plus fa-2x"> </i>
           <span class="hidden-xs"> </span>
@@ -26,7 +26,6 @@
           </div>
           <% end %>
         <div class="onl_loginForm">
-
           <div class="input-group">
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-user"></span>

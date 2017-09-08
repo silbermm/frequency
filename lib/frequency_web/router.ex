@@ -10,8 +10,8 @@ defmodule FrequencyWeb.Router do
   end
 
   pipeline :browser_session do
-      plug Guardian.Plug.VerifySession
-      plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
   end
 
   pipeline :api_auth do
@@ -25,25 +25,18 @@ defmodule FrequencyWeb.Router do
 
   scope "/auth", FrequencyWeb do
     pipe_through [:browser]
-    get "/register", AuthController, :register
+    get "/logout", AuthController, :delete
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
     post "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :delete
   end
 
   scope "/", FrequencyWeb do
     pipe_through [:browser, :browser_session] # Use the default browser stack
     get "/login", LoginController, :index
     post "/login", LoginController, :login
+    get "/register", RegistrationController, :index
+    post "/register", RegistrationController, :register
     get "/", PageController, :index
-  end
-
-  scope "/api", FrequencyWeb do
-    pipe_through [:api, :api_auth]
-
-    get    "/token", TokenController, :verify
-    delete "/token", TokenController, :delete
-    #post   "/token", LoginController, :login
   end
 end
