@@ -3,6 +3,6 @@ defmodule FrequencyWeb.PageController do
 
   def index(conn, params) do
     user = Guardian.Plug.current_resource(conn)
-    render conn, "index.html", user: user
+    render conn, "index.html", loggedin_user: user
   end
 end

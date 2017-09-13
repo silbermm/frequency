@@ -1,5 +1,2 @@
-<div>
-  <%= if assigns[:user] do %>
-    <%= @user.username %>
-  <% end %>
-</div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtWv0jHYZRDOidnfsLndKUsezu7OrXrXU"></script>
+<div id="map"></div>

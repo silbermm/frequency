@@ -1,12 +1,27 @@
 /* This file is for your main application css. */
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar-inverse {
+  background-color: rgba(0,0,0,.7);
+}
+
+#map {
+  height: 100em;
+  width: 100%;
+  left: 0;
+  position: relative;
+  top: 0;
+}
+
 @media (min-width: 768px) {
   .onl_row-sm-offset-3 div:first-child[class*="col-"] {
     margin-left: 25%;
   }
 }
-body {
-    font-family: 'Titillium Web', sans-serif; 
-}
+
 .onl_login .onl_authTitle {
   text-align: center;
   line-height: 300%;
@@ -76,3 +91,5 @@ body {
     margin-top:10px;
   }
 }
+
+
