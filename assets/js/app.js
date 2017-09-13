@@ -12,12 +12,15 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import show_map from "./map"
 
 jQuery(document).ready(function($){
   // get the users current latitude / longitude
   if( navigator.geolocation )
   {
-    navigator.geolocation.getCurrentPosition( success, () => {} );
+    navigator.geolocation.getCurrentPosition( show_map, () => {
+      alert("Sorry we can't get your location");
+    });
   }
   else
   {
@@ -29,9 +32,10 @@ jQuery(document).ready(function($){
     position.coords.latitude
     var latitude = position.coords.latitude,
         longitude = position.coords.longitude,
-        map_zoom = 17;
+        map_zoom = 15;
+
     var is_internetExplorer11= navigator.userAgent.toLowerCase().indexOf('trident') > -1;
-    var marker_url = ( is_internetExplorer11 ) ? 'http://gdurl.com/Uibp' : 'http://gdurl.com/kVn2';
+
     var main_color = '#0085a1',
         saturation_value= -20,
         brightness_value= 5;
@@ -214,11 +218,10 @@ jQuery(document).ready(function($){
           }
     var map = new google.maps.Map(document.getElementById('map'), map_options);
     var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(latitude, longitude),
-            map: map,
-            visible: true,
-          icon: marker_url,
-        });
+      position: new google.maps.LatLng(latitude, longitude),
+      map: map,
+      visible: true
+    });
   }
 });
 

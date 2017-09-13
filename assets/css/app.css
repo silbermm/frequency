@@ -16,6 +16,24 @@ html, body {
   top: 0;
 }
 
+.alert-info {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  z-index: 100;
+  color: #31708f;
+  background-color: rgba(217, 237, 247, 0.91);
+  border-color: #bce8f1;
+}
+
+.alert-danger {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  z-index: 100;
+}
+
+
 @media (min-width: 768px) {
   .onl_row-sm-offset-3 div:first-child[class*="col-"] {
     margin-left: 25%;
