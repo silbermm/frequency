@@ -36,7 +36,8 @@ defmodule Frequency.Mixfile do
      {:ueberauth_google, "~> 0.5"},
      {:ueberauth_identity, "~> 0.2"},
      {:guardian, "~> 0.14", override: true},
-     {:comeonin, "~> 3.0"}]
+     {:comeonin, "~> 3.0"},
+     {:mix_test_watch, "~> 0.3", only: :dev, runtime: false}]
   end
 
   defp aliases do
