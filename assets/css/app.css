@@ -4,6 +4,10 @@ html, body {
   width: 100%;
 }
 
+.push-top {
+  margin-top: 102px;
+}
+
 .navbar-inverse {
   background-color: rgba(0,0,0,.7);
 }

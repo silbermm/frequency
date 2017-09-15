@@ -1,0 +1,16 @@
+<div class="container push-top">
+  <h3> Create a new station </h3>
+  <div class="row">
+    <div class="col-sm-12">
+
+      <%= form_for @station, station_path(@conn, :create), [class: "form-horizontal"], fn f -> %>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"> Call Letters </label>
+          <div class="col-sm-10">
+            <%= text_input f, :call_letters, class: "form-control"  %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

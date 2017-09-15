@@ -33,6 +33,8 @@ defmodule FrequencyWeb.Router do
   
   scope "/station", FrequencyWeb do
     pipe_through [:browser, :browser_session]
+    get "/create", StationController, :create_form
+    post "/create", StationController, :create
     get "/:station_id", StationController, :get
   end
 
