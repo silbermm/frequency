@@ -17,7 +17,7 @@ html, body {
   width: 100%;
   left: 0;
   position: relative;
-  top: 0;
+  margin-top: 50px;
 }
 
 .alert-info {
