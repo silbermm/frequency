@@ -37,4 +37,8 @@ defmodule FrequencyWeb.AuthController do
     end
   end
 
+  def unauthenticated(conn, params) do
+    conn
+    |> redirect to: login_path(conn, :index)
+  end
 end

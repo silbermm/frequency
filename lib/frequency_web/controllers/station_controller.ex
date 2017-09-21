@@ -1,6 +1,9 @@
 defmodule FrequencyWeb.StationController do
   use FrequencyWeb, :controller
   alias Frequency.Radio
+  alias FrequencyWeb.Plugs.IncludeUserPlug
+
+  plug IncludeUserPlug
 
   def get(conn, %{"station_id" => station_id} = params) do
     station = Radio.get_station(station_id)

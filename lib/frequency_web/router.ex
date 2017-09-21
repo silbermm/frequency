@@ -14,6 +14,10 @@ defmodule FrequencyWeb.Router do
     plug Guardian.Plug.LoadResource
   end
 
+  pipeline :browser_ensure_authed do
+    plug Guardian.Plug.EnsureAuthenticated, %{handler: FrequencyWeb.AuthController}
+  end
+
   pipeline :api_auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
@@ -32,7 +36,7 @@ defmodule FrequencyWeb.Router do
   end
   
   scope "/station", FrequencyWeb do
-    pipe_through [:browser, :browser_session]
+    pipe_through [:browser, :browser_session, :browser_ensure_authed]
     get "/create", StationController, :create_form
     post "/create", StationController, :create
     get "/:station_id", StationController, :get

@@ -1,8 +1,10 @@
 defmodule FrequencyWeb.PageController do
   use FrequencyWeb, :controller
+  alias FrequencyWeb.Plugs.IncludeUserPlug
+
+  plug IncludeUserPlug
 
   def index(conn, params) do
-    user = Guardian.Plug.current_resource(conn)
-    render conn, "index.html", loggedin_user: user
+    render conn, "index.html"
   end
 end
