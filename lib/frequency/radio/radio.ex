@@ -3,6 +3,10 @@ defmodule Frequency.Radio do
   alias Frequency.Radio.Station
   import Ecto.Changeset
 
+  def stations() do
+    Repo.all(Station)
+  end
+
   def get_station(station_id) do
     Repo.get(Station, station_id)
   end

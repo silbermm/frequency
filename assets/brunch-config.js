@@ -1,9 +1,10 @@
 exports.config = {
   files: {
     javascripts: {
-      joinTo: "js/app.js",
       entryPoints: {
-        'js/elm-main.js': 'js/elm-main.js'
+        'js/elm-main.js': 'js/elm-main.js',
+        'js/app.js': 'js/app.js',
+        'js/map.js': 'js/map.js'
       }
     },
     stylesheets: {

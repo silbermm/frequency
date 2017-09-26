@@ -75,6 +75,11 @@
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
+    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
+    <script>
+      require("js/map.js")
+    </script>
+
     <!-- TODO: dynamically choose which elm file to include -->
     <%= if assigns[:elm_module] do %>
       <script src="<%= static_path(@conn, @elm_module) %>"></script>
