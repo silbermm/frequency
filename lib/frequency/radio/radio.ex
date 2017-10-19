@@ -4,7 +4,9 @@ defmodule Frequency.Radio do
   import Ecto.Changeset
 
   def stations() do
-    Repo.all(Station)
+    Station
+    |> Repo.all
+    |> Repo.preload(:station_strengths)
   end
 
   def get_station(station_id) do
@@ -18,6 +20,7 @@ defmodule Frequency.Radio do
   def station_changeset(params \\ %{}) do
     %Station{}
     |> cast(params, [:call_letters, :channel, :website])
+    |> cast_assoc(:station_strengths)
     |> validate_required([:call_letters, :channel])
     |> unique_constraint(:call_letters)
   end

@@ -5,6 +5,11 @@ defmodule FrequencyWeb.StationController do
 
   plug IncludeUserPlug
 
+  def index(conn, _params) do
+    stations = Radio.stations()
+    render conn, "index.json", stations: stations
+  end
+
   def get(conn, %{"station_id" => station_id} = params) do
     station = Radio.get_station(station_id)
     render conn, "station.html", station: station

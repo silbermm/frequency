@@ -8,7 +8,10 @@ defmodule FrequencyWeb.PageController do
   def index(conn, params) do
     # load all radio stations...
     # this may eventually be too large a call
+    jwt = Guardian.Plug.current_token(conn)
     stations = Radio.stations()
-    render conn, "index.html", stations: stations
+    conn
+    |> put_resp_header("authorization", "Bearer #{jwt}")
+    |> render "index.html", stations: stations, jwt: jwt
   end
 end

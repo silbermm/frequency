@@ -24,8 +24,21 @@
             <%= error_tag f, :website %>
           </div>
         </div>
-        <%= hidden_input f, :latitude %>
-        <%= hidden_input f, :longitude %>
+        <%= inputs_for f, :station_strengths, fn fp -> %>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label"> Current Strength </label>
+          <div class="col-sm-10">
+            <%= select fp, :strength, 1..10, class: "form-control" %>
+            <%= error_tag fp, :strength %>
+          </div>
+        </div>
+
+        <%= hidden_input fp, :latitude, value: 90.098 %>
+        <%= hidden_input fp, :longitude, value: 9999999 %>
+
+        <% end %>
+
         <button class="btn btn-lg btn-primary btn-block">
           Create
         </button>
