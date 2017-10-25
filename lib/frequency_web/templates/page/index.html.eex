@@ -1,2 +1,3 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtWv0jHYZRDOidnfsLndKUsezu7OrXrXU"></script>
 <div id="map"></div>
+<input type="hidden" value="<%= @jwt %>" id="jwt">

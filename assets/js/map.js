@@ -1,9 +1,31 @@
 import style from "./map_style";
+//import "js-map-label/src/maplabel";
 jQuery(document).ready(function($){
     // get the users current latitude / longitude
   if( navigator.geolocation )
   {
-    navigator.geolocation.getCurrentPosition( show_map, () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const jwt = document.getElementById("jwt");
+      const myHeaders = new Headers({
+        'authorization': 'Bearer ' + jwt.value,
+        'content-type': 'application/json'
+      });
+
+      const myInit = { method: 'GET',
+                       headers: myHeaders,
+                       mode: 'cors',
+                       cache: 'default' };
+      let mapData= [];
+      fetch('/api/stations', myInit).then( (response) => {
+        return response.text();
+      }).then( (body) => {
+        body = JSON.parse(body);
+        mapData = body.data;
+        console.log(mapData);
+        show_map(position, mapData);
+      });
+
+    }, () => {
       alert("Sorry we can't get your location");
     });
   }
@@ -13,18 +35,10 @@ jQuery(document).ready(function($){
   }
 });
 
-const show_map = (position) => {
-
-  const d = document.getElementById("map-data");
-  const mapData = d != null ? JSON.parse(d.value) : [];
-  console.log(mapData);
-
+const show_map = (position, mapData) => {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
   const map_zoom = 15;
-
-  console.log(latitude);
-  console.log(longitude);
 
   const is_internetExplorer11 =
     navigator.userAgent.toLowerCase().indexOf("trident") > -1;
@@ -51,11 +65,8 @@ const show_map = (position) => {
     visible: true
   });
 
-  let groups = groupBy(mapData, "channel");
-
-  console.log(groups);
-  for (var f in groups)  {
-    const coords = groups[f].map(x => new google.maps.LatLng(x.latitude, x.longitude))
+  mapData.forEach( (f) => {
+    const coords = f.station_strengths.map(x => new google.maps.LatLng(x.latitude, x.longitude))
 
     let polygon = new google.maps.Polygon({
       paths: coords,
@@ -67,15 +78,25 @@ const show_map = (position) => {
     });
 
     polygon.setMap(map);
+    //Define position of label
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < coords.length; i++) {
+      bounds.extend(coords[i]);
+    }
 
-  };
+    var myLatlng = bounds.getCenter();
+    var mapLabel = new MapLabel({
+      text: mapData.call_letters,
+      position: myLatlng,
+      map: map,
+      fontSize: 20,
+      align: 'left'
+    });
+
+  });
+
+  polygon.setMap(map);
 
 }
 
-const groupBy = (xs, key) => {
-  return xs.reduce((rv, x) => {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-  }, {});
-};
 export default show_map;
