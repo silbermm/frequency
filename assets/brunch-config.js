@@ -1,10 +1,9 @@
 exports.config = {
   files: {
     javascripts: {
-      entryPoints: {
-        'js/elm-main.js': 'js/elm-main.js',
-        'js/app.js': 'js/app.js',
-        'js/map.js': 'js/map.js'
+      joinTo: {
+        'js/app.js': /^js/,       // all code from 'app/',
+        'js/vendor.js': /^(?!js)/ // all BUT app code - 'vendor/', 'node_modules/', etc
       }
     },
     stylesheets: {
@@ -32,7 +31,7 @@ exports.config = {
       ignore: [/vendor/]
     },
     elmBrunch: {
-      mainModules: ["elm/Main.elm", "elm/Map.elm", "elm/Login.elm"],
+      mainModules: ["elm/Main.elm", "elm/Map.elm"],
       makeParameters: ['--debug'],
       executablePath: 'node_modules/elm/binwrappers'
     }

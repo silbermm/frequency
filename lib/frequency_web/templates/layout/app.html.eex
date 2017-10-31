@@ -73,9 +73,10 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
+
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
-    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
     <script>
       require("js/map.js")
     </script>
@@ -85,11 +86,16 @@
       <script src="<%= static_path(@conn, @elm_module) %>"></script>
     <% end %>
 
-    <%= if assigns[:elm_module] do %>
-    <script src="<%= static_path(@conn, "/js/elm-main.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
     <script>
-      require("js/elm-main").App.loadElm()
+      //require("js/elm-main").App.loadElm()
+      var node = document.getElementById("map");
+      var app = Elm.Main.embed(node);
+      app.ports.queryLocation.subscribe( arg => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          app.ports.locationResult.send({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        });
+      });
     </script>
-    <% end %>
   </body>
 </html>
