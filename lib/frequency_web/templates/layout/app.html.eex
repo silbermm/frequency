@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Frequency - Find public radio on the road</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
@@ -22,6 +21,9 @@
             crossorigin="anonymous">
     </script>
     <script src="https://use.fontawesome.com/5912206c88.js"></script>
+
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <style> 
       .navbar-inverse {
         background-color: rgba(0,0,0,.7);
@@ -73,29 +75,5 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
-
-    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-    <script>
-      require("js/map.js")
-    </script>
-
-    <!-- TODO: dynamically choose which elm file to include -->
-    <%= if assigns[:elm_module] do %>
-      <script src="<%= static_path(@conn, @elm_module) %>"></script>
-    <% end %>
-
-    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
-    <script>
-      //require("js/elm-main").App.loadElm()
-      var node = document.getElementById("map");
-      var app = Elm.Main.embed(node);
-      app.ports.queryLocation.subscribe( arg => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          app.ports.locationResult.send({latitude: position.coords.latitude, longitude: position.coords.longitude});
-        });
-      });
-    </script>
-  </body>
+ </body>
 </html>

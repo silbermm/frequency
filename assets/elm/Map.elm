@@ -35,13 +35,35 @@ update msg model =
 -- VIEW
 view : Model -> Html Msg
 view model =
-  node "good-map"
+  node "google-map"
     [ attribute "api-key" "AIzaSyDtWv0jHYZRDOidnfsLndKUsezu7OrXrXU"
-    , attribute "latitude" (toString model.latitude)
+    , attribute "fit-to-marker" "true"
     , attribute "longitude" (toString model.longitude)
-    , attribute "zoom" "10"
+    , attribute "latitude" (toString model.latitude)
     ]
-    []
+    [ node "google-map-marker"
+      [ attribute "longitude" (toString model.longitude)
+      , attribute "latitude" (toString model.latitude)
+      ]
+      []
+    , node "google-map-poly"
+      [ attribute "closed" "true"
+      , attribute "fill-color" "blue"
+      , attribute "fill-opacity" ".5"
+      ]
+        [ node "google-map-point"
+          [ attribute "latitude" "39.185"
+          , attribute "longitude" "-84.568"
+          ]
+          []
+        , node "google-map-point"
+          [ attribute "latitude" "39.1867"
+          , attribute "longitude" "-84.85858"
+          ]
+          []
+        ]
+    ]
+
 
 init : (Model, Cmd Msg)
 init =

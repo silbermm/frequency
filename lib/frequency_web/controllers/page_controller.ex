@@ -11,7 +11,9 @@ defmodule FrequencyWeb.PageController do
     jwt = Guardian.Plug.current_token(conn)
     stations = Radio.stations()
     conn
-    |> put_resp_header("authorization", "Bearer #{jwt}")
-    |> render "index.html", stations: stations, jwt: jwt
+    |> render "index.html", [
+      stations: stations,
+      jwt: jwt
+    ]
   end
 end

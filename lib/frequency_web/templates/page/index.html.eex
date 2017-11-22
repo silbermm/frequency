@@ -1,10 +1,7 @@
-<%#<div id="map"></div>%>
-<style>
-good-map {
-  display: block;
-  height: 100%;
-}
-</style>
+<div id="main"> </div>
 
-<div id="map"> </div>
+<script src="<%= static_path(@conn, "/js/main.js") %>"></script>
+<script type="text/javascript">
+  require("js/elm-main").App.loadElm("<%= @jwt %>")
+</script>
 

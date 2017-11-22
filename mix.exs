@@ -17,7 +17,6 @@ defmodule Frequency.Mixfile do
      extra_applications: [:logger, :runtime_tools]]
   end
 
-  # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_),     do: ["lib"]
 
@@ -28,6 +27,7 @@ defmodule Frequency.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev, override: true},
+     {:nprx, github: "silbermm/nprx"},
      {:dogma, "~> 0.1", only: :dev},
      {:dialyxir, "~> 0.5.0", only: [:dev]},
      {:gettext, "~> 0.11"},

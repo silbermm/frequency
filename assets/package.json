@@ -3,20 +3,11 @@
   "license": "MIT",
   "scripts": {
     "deploy": "brunch build --production",
-    "watch": "brunch watch --stdin",
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
+    "watch": "brunch watch --stdin"
   },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html",
-    "@bower_components/google-apis": "GoogleWebComponents/google-apis#1 - 2",
-    "@bower_components/google-map": "GoogleWebComponents/google-map#^2.0.2",
-    "@bower_components/iron-jsonp-library": "PolymerElements/iron-jsonp-library#1 - 2",
-    "@bower_components/iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#1 - 2",
-    "@bower_components/iron-selector": "PolymerElements/iron-selector#1 - 2",
-    "@bower_components/polymer": "Polymer/polymer#1.9 - 2",
-    "@bower_components/shadycss": "webcomponents/shadycss#^v1.0.0",
-    "@bower_components/webcomponentsjs": "webcomponents/webcomponentsjs#^v1.0.2"
+    "phoenix_html": "file:../deps/phoenix_html"
   },
   "devDependencies": {
     "babel-brunch": "6.0.6",
@@ -24,6 +15,11 @@
     "clean-css-brunch": "2.10.0",
     "elm": "^0.18.0",
     "elm-brunch": "^0.9.0",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "prettier": "^1.7.4",
     "uglify-js-brunch": "2.1.1"
   },
   "engines": {
