@@ -44,4 +44,5 @@ defmodule FrequencyWeb.Router do
     post "/register", RegistrationController, :register
     get "/", PageController, :index
   end
+
 end
