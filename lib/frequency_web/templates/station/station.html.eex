@@ -1,3 +1,0 @@
-<%= if assigns[:station] do %>
-  <h1> <%= @station.call_letters %> </h1>
-<% end %>

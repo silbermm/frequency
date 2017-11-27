@@ -17,6 +17,10 @@ config :frequency, FrequencyWeb.Endpoint,
   pubsub: [name: Frequency.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :nprx,
+  npr_app_id: System.get_env("NPR_APP_ID"),
+  npr_app_secret: System.get_env("NPR_APP_SECRET")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

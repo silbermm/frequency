@@ -35,13 +35,6 @@ defmodule FrequencyWeb.Router do
     get "/:provider/callback", AuthController, :callback
     post "/:provider/callback", AuthController, :callback
   end
-  
-  scope "/station", FrequencyWeb do
-    pipe_through [:browser, :browser_session, :browser_ensure_authed]
-    get "/create", StationController, :create_form
-    post "/create", StationController, :create
-    get "/:station_id", StationController, :get
-  end
 
   scope "/", FrequencyWeb do
     pipe_through [:browser, :browser_session]
@@ -50,10 +43,5 @@ defmodule FrequencyWeb.Router do
     get "/register", RegistrationController, :index
     post "/register", RegistrationController, :register
     get "/", PageController, :index
-  end
-
-  scope "/api", FrequencyWeb do
-    pipe_through [:api_auth]
-    get "/stations", StationController, :index
   end
 end

@@ -20,7 +20,7 @@ exports.config = {
 
   // Phoenix paths configuration
   paths: {
-    watched: ["static", "css", "js", "vendor", "elm"],
+    watched: ["static", "css", "js", "vendor"],
     public: "../priv/static"
   },
 
@@ -29,11 +29,6 @@ exports.config = {
     babel: {
       ignore: [/vendor/]
     },
-    elmBrunch: {
-      mainModules: ["elm/Main.elm", "elm/Map.elm"],
-      makeParameters: ['--debug'],
-      executablePath: 'node_modules/elm/binwrappers'
-    }
   },
 
   modules: {

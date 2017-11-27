@@ -1,7 +1,10 @@
-<div id="main"> </div>
-
-<script src="<%= static_path(@conn, "/js/main.js") %>"></script>
-<script type="text/javascript">
-  require("js/elm-main").App.loadElm("<%= @jwt %>")
-</script>
-
+<div class="container"> 
+  <%= for station <- @stations do %>
+    <ul>
+      <li>
+        <%= station.frequency %> 
+        <img src="<%= station.logo["href"] %>" />
+      </li>
+    </ul>
+  <% end %>
+</div>

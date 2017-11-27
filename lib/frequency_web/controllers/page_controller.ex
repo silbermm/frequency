@@ -6,10 +6,8 @@ defmodule FrequencyWeb.PageController do
   plug IncludeUserPlug
 
   def index(conn, params) do
-    # load all radio stations...
-    # this may eventually be too large a call
     jwt = Guardian.Plug.current_token(conn)
-    stations = Radio.stations()
+    stations = Frequency.NPR.stations()
     conn
     |> render "index.html", [
       stations: stations,
