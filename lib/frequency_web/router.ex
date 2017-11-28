@@ -21,7 +21,6 @@ defmodule FrequencyWeb.Router do
   pipeline :api_auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
-    plug Guardian.Plug.EnsureAuthenticated
   end
 
   pipeline :api do
@@ -43,6 +42,11 @@ defmodule FrequencyWeb.Router do
     get "/register", RegistrationController, :index
     post "/register", RegistrationController, :register
     get "/", PageController, :index
+  end
+
+  scope "/api", FrequencyWeb do
+    pipe_through [:api_auth]
+    get "/stations", StationController, :index
   end
 
 end

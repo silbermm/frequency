@@ -18,11 +18,10 @@ defmodule Frequency.NPR do
         id: station["attributes"]["network"]["currentOrgId"],
         frequency: station["attributes"]["brand"]["frequency"],
         band: station["attributes"]["brand"]["band"],
-        call_letters: station["attributes"]["brand"]["call_letters"],
+        call_letters: station["attributes"]["brand"]["call"],
         logo: build_logo(station["links"]["brand"])
       }
     end)
-    IO.inspect res
     res
   end
 
