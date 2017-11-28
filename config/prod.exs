@@ -3,7 +3,7 @@ use Mix.Config
 config :frequency, FrequencyWeb.Endpoint,
   load_from_system_env: true,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "public-frequency#{if MIX_ENV == "prod" do "" else "dev" end}.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "public-frequency.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
