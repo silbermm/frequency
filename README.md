@@ -1,6 +1,6 @@
 # Frequency
 
-[![Build Status](https://semaphoreci.com/api/v1/silbermm/frequency-3/branches/development/badge.svg)](https://semaphoreci.com/silbermm/frequency-3)
+[![Build Status](https://semaphoreci.com/api/v1/silbermm/frequency-3/branches/master/badge.svg)](https://semaphoreci.com/silbermm/frequency-3)
 
 ### Environment Variables Needed
 |NPR_APP_ID | Get from [npr developer console](https://dev.npr.org/console)|
