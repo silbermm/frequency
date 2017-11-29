@@ -1,5 +1,6 @@
 defmodule Frequency.NPR do
 
+
   defstruct id: 0, frequency: "", band: "", call_letters: "", logo: %{}, stream: ""
 
   def stations() do
