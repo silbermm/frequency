@@ -19,13 +19,4 @@ defmodule FrequencyWeb.IncludeUserPlugTest do
       |> get "/"
     assert conn.assigns.loggedin_user == user
   end
-
-  test "logged in user included in assigns for /station/:id", %{conn: conn, user: user} do
-    conn = guardian_login(conn, user)
-    station = %Station{ call_letters: "WVXU", channel: "91.7", website: "https://wvxu.org" }
-    {:ok, station_inserted} = Frequency.Repo.insert(station)
-    conn = get conn, "/station/#{station_inserted.id}"
-    assert conn.assigns.loggedin_user == user
-  end
-
 end

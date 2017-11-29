@@ -1,6 +1,6 @@
 defmodule FrequencyWeb.StationControllerTest do
   use FrequencyWeb.ConnCase
-
+  import Mock
   alias Frequency.Radio.Station
   alias Frequency.Authentication.User
   alias Frequency.Repo
@@ -11,37 +11,12 @@ defmodule FrequencyWeb.StationControllerTest do
     {:ok, %{user: user}}
   end
 
-  test "GET /station/:id", %{conn: conn, user: user} do
-    conn = guardian_login(conn, user)
-    station = %Station{ call_letters: "WVXU", channel: "91.7", website: "https://wvxu.org" }
-    {:ok, station_inserted} = Frequency.Repo.insert(station)
-    conn = get conn, "/station/#{station_inserted.id}"
-    assert html_response(conn, 200) =~ "WVXU"
+  test "GET /api/stations", %{conn: conn, user: user} do
+    with_mock Frequency.NPR, [stations: fn() -> [%Frequency.NPR{ call_letters: "WVXU", frequency: "91.7", band: "PM", id: "123" }] end] do
+      conn = guardian_login(conn, user)
+      conn = get conn, "/api/stations"
+      assert json_response(conn, 200) == [%{"band" => "PM", "call_letters" => "WVXU", "frequency" => "91.7", "id" => "123", "logo" => %{}, "stream" => ""}]
+    end
   end
 
-  test "GET /station/create", %{conn: conn, user: user} do
-    conn = conn
-           |> guardian_login(user)
-           |> get "/station/create"
-    assert html_response(conn, 200) =~ "form"
-  end
-
-  test "POST /station/create", %{conn: conn, user: user} do
-    conn = 
-      conn
-      |> guardian_login(user)
-      |> post "/station/create", %{"station" => %{call_letters: "WNKU", channel: "89.7", website: "https://wnku.org"}}
-    station = Frequency.Repo.get_by(Station, call_letters: "WNKU")
-    assert html_response(conn, 302)
-    assert station.call_letters == "WNKU"
-  end
-
-  test "POST /station shows success message", %{conn: conn, user: user} do
-    conn =
-      conn
-      |> guardian_login(user)
-      |> post "/station/create", %{"station" => %{call_letters: "WNKU", channel: "89.7", website: "https://wnku.org"}}
-    station = Frequency.Repo.get_by(Station, call_letters: "WNKU")
-    assert get_flash(conn, :info) == "Station Created"
-  end
 end

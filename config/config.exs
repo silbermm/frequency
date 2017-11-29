@@ -14,8 +14,7 @@ config :frequency, FrequencyWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "pIR0e5/N/jAgtiexjLlbarXzIopdb1G2WTEdlP/LuIOmdLKn0pZvOMMzUB5JKu7I",
   render_errors: [view: FrequencyWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Frequency.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Frequency.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :nprx,
   npr_app_id: System.get_env("NPR_APP_ID"),
