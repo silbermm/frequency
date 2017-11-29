@@ -1,20 +1,12 @@
 # Frequency
 
-To start your Phoenix server:
+[![Build Status](https://semaphoreci.com/api/v1/silbermm/frequency-3/branches/development/badge.svg)](https://semaphoreci.com/silbermm/frequency-3)
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+### Environment Variables Needed
+|NPR_APP_ID | Get from [npr developer console](https://dev.npr.org/console)|
+|NPR_APP_SECRET| Get from [npr developer console](https://dev.npr.org/console)|
+
+Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
