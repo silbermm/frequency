@@ -3,10 +3,10 @@ defmodule Frequency.NPR do
 
   defstruct id: 0, frequency: "", band: "", call_letters: "", logo: %{}, stream: ""
 
-  def stations() do
+  def stations(opts \\ []) do
     {:ok, npr_token} = NPRx.Auth.authenticate_client()
     npr_token
-    |> NPRx.StationFinder.stations
+    |> NPRx.StationFinder.stations(opts)
     |> case do
       {:ok, results} -> to_struct(results)
       {:error, reason} -> []
