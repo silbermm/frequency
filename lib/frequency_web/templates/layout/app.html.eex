@@ -23,6 +23,11 @@
 
     <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <style>
+      body {
+        background-image: url("<%= static_path(@conn, "/images/background.png") %>");
+      }
+    </style>
   </head>
 
   <body>
