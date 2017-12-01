@@ -1,4 +1,5 @@
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Http exposing (..)
 import Task
 import Json.Decode as Decode exposing (..)
@@ -84,10 +85,36 @@ update msg model =
 -- VIEW
 view : Model -> Html Msg
 view model =
-  div []
+  div [ class "container" ]
   [
-    Html.text model.error
+    div [ class "row" ] []
+  , div [ class "row" ]
+      [
+        div [ class "col-md-9" ]
+        [
+          h3 [ style [("color", "white")] ] 
+            [
+              text(toString(List.length(model.stations)) ++ " ")
+            , small [] [ text "NPR stations near you" ]
+            ]
+        ]
+      ]
+  , div [ ] (List.map renderStation model.stations)
   ]
+
+renderStation station =
+  div [ class "media" ]
+   [
+    div [ class "media-left" ]
+      [
+        div [ class "media-object" ] [ text(station.frequency ++ " " ++ station.band) ]
+      ]
+    , div [ class "media-body" ]
+      [
+        h4 [ class "media-heading" ] [ text station.call_letters ]
+      , p [] [ text "Listen to the station" ]
+      ]
+   ]
 
 -- SUBSCRIPTIONS
 subscriptions : Model -> Sub Msg

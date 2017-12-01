@@ -26,45 +26,12 @@
   </head>
 
   <body>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="<%= page_path(@conn, :index) %>"> Frequency </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <%= if assigns[:loggedin_user] do %>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= @loggedin_user.username %> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Your Info</li>
-                <li><a href="">Profile</a></li>
-                <li><a href="<%= auth_path(@conn, :delete) %>">Logout</a></li>
-              </ul>
-            </li>
-
-            <% else %>
-            <li>
-              <a href="<%= login_path(@conn, :index) %> "> Login  </a>
-            </li>
-            <% end %>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
     <main role="main">
+      <div class="container">
+        <img src="<%= static_path(@conn, "/images/frequency.png") %>" />
+      </div>
+    <%#  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) <]</p>%>
+      <%#<p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) <]</p>%>
       <%= render @view_module, @view_template, assigns %>
     </main>
 
