@@ -7,7 +7,6 @@ defmodule FrequencyWeb.PageController do
 
   def index(conn, params) do
     jwt = Guardian.Plug.current_token(conn)
-    #stations = Frequency.NPR.stations()
     conn
     |> render "index.html", [
       jwt: jwt
