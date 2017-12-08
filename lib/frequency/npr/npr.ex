@@ -8,13 +8,16 @@ defmodule Frequency.NPR do
     npr_token
     |> NPRx.StationFinder.stations(opts)
     |> case do
-      {:ok, results} -> to_struct(results)
+      {:ok, results} ->
+        results
+        |> to_struct
+        |> Enum.sort_by(fn(r) -> r.call_letters end)
       {:error, reason} -> []
     end
   end
 
   def to_struct(results) do
-    res = Stream.map(results, fn(station) ->
+    Stream.map(results, fn(station) ->
       %__MODULE__{
         id: station["attributes"]["network"]["currentOrgId"],
         frequency: station["attributes"]["brand"]["frequency"],
@@ -23,7 +26,6 @@ defmodule Frequency.NPR do
         logo: build_logo(station["links"]["brand"])
       }
     end)
-    res
   end
 
   defp build_logo(links) do

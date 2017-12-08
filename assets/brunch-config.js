@@ -31,7 +31,7 @@ exports.config = {
     },
     elmBrunch: {
       mainModules: ["elm/Main.elm"],
-      makeParameters: ['--debug'],
+      // makeParameters: ['--debug'],
       executablePath: 'node_modules/elm/binwrappers'
     }
   },
