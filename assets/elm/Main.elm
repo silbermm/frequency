@@ -118,7 +118,7 @@ renderStation station =
 
 -- SUBSCRIPTIONS
 subscriptions : Model -> Sub Msg
-subscriptions model = 
+subscriptions model =
   Sub.batch
       [ Geolocation.changes Geolocation ]
 
