@@ -16,6 +16,10 @@ config :frequency, FrequencyWeb.Endpoint,
   render_errors: [view: FrequencyWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Frequency.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :frequency,
+  station_distance_threshold: 5,
+  station_cache_time: 600
+
 config :nprx,
   npr_app_id: System.get_env("NPR_APP_ID"),
   npr_app_secret: System.get_env("NPR_APP_SECRET")

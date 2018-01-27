@@ -1,0 +1,10 @@
+alias Frequency.Authentication
+alias Frequency.Authentication.User
+alias Frequency.GeoDistance.Server
+alias Frequency.NPR.Station
+alias Frequency.Radio
+alias Frequency.Radio.Station
+alias Frequency.Repo
+alias FrequencyWeb.Plugs.IncludeUserPlug
+alias Ueberauth.Auth
+alias Ueberauth.Strategy.Helpers

@@ -13,7 +13,7 @@ defmodule Frequency.Application do
       # Start the endpoint when the application starts
       supervisor(FrequencyWeb.Endpoint, []),
       # Start your own worker by calling: Frequency.Worker.start_link(arg1, arg2, arg3)
-      # worker(Frequency.Worker, [arg1, arg2, arg3]),
+      worker(Frequency.NPR.StationCache, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -36,6 +36,7 @@ defmodule Frequency.Mixfile do
      {:ueberauth_identity, "~> 0.2"},
      {:guardian, "~> 0.14", override: true},
      {:comeonin, "~> 3.0"},
+     {:focus, "~> 0.3.5"},
      {:mock, "~> 0.2.0", only: :test},
      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false}]
   end
